@@ -107,3 +107,13 @@ def reset_database():
         session.exec(delete(Gratitude))
         session.commit()
         return {"message": "Gratitude data has been reset"}
+    
+@app.delete("/scriptures/{scripture_id}")
+def delete_scripture(scripture_id: int):
+    with Session(engine) as session:
+        scripture = session.get(Scripture, scripture_id)
+        if not scripture:
+            raise HTTPException(status_code=404, detail="Scripture not found")
+        session.delete(scripture)
+        session.commit()
+        return {"ok": True}
