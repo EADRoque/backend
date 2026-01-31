@@ -117,3 +117,19 @@ def delete_scripture(scripture_id: int):
         session.delete(scripture)
         session.commit()
         return {"ok": True}
+
+@app.delete("/scriptures/category/{category_name}")
+def delete_category(category_name: str):
+    with Session(engine) as session:
+        # Select all scriptures that match the category name
+        statement = select(Scripture).where(Scripture.category == category_name)
+        results = session.exec(statement).all()
+        
+        if not results:
+            raise HTTPException(status_code=404, detail="Category not found")
+            
+        for scripture in results:
+            session.delete(scripture)
+            
+        session.commit()
+        return {"message": f"Category '{category_name}' and its verses removed"}
