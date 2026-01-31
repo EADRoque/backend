@@ -87,12 +87,12 @@ def delete_gratitude(gratitude_id: int):
 
 # --- Scripture Routes ---
 
-@app.get("/scriptures/", response_model=List[Scripture])
+@app.get("/scripture/", response_model=List[Scripture])
 def read_scriptures():
     with Session(engine) as session:
         return session.exec(select(Scripture)).all()
 
-@app.post("/scriptures/", response_model=Scripture)
+@app.post("/scripture/", response_model=Scripture)
 def create_scripture(scripture: Scripture):
     with Session(engine) as session:
         session.add(scripture)
