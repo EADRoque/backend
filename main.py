@@ -48,7 +48,6 @@ app.add_middleware(
 @app.on_event("startup")
 def on_startup():
     try:
-        # This will create BOTH tables (Gratitude and Scripture)
         SQLModel.metadata.create_all(engine)
         print("✅ All database tables synced successfully!")
     except Exception as e:
@@ -105,7 +104,6 @@ def create_scripture(scripture: Scripture):
 @app.delete("/reset/")
 def reset_database():
     with Session(engine) as session:
-        # Deletes all gratitude entries
         session.exec(delete(Gratitude))
         session.commit()
         return {"message": "Gratitude data has been reset"}
